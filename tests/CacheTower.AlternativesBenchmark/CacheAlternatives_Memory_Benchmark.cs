@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using CacheManager.Core;
+using CacheTower.Internal;
 using CacheTower.Providers.Memory;
 using EasyCaching.InMemory;
 using LazyCache;
@@ -39,7 +40,7 @@ namespace CacheTower.AlternativesBenchmark
 			var layer = new MemoryCacheLayer();
 			await LoopActionAsync(Iterations, async () =>
 			{
-				await layer.SetAsync("TestKey", new CacheEntry<int>(123, DateTime.UtcNow + TimeSpan.FromDays(1)));
+				await layer.SetAsync("TestKey", new CacheEntry<int>(123, DateTimeProvider.Now + TimeSpan.FromDays(1)));
 				await layer.GetAsync<int>("TestKey");
 
 				var getOrSetResult = await layer.GetAsync<string>("GetOrSet_TestKey");
